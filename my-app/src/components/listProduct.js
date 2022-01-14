@@ -1,13 +1,13 @@
 import data from "../data";
 
-const NewsList = {
+const NewList = {
     render() {
         return /* html */`
         <div class="max-w-screen-lg m-auto font-sans">
-      <div>
-        <h2 class="font-bold text-cyan-900 text-xl my-6">TIN TỨC</h2>
+        <div>
+        <h2 class="font-bold text-cyan-900 text-xl my-6">SẢN PHẨM</h2>
       </div>
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid grid-cols-4 gap-6">
       ${data.map((post) => `
       <div class="border-solid border border-gray-300 py-4 px-4">
           <a href="/news/${post.id}"><img src="${post.img}" alt=""></a>
@@ -17,9 +17,8 @@ const NewsList = {
       `).join("")}
       </div>
       </div>
-      </div>
         
         `;
     },
 };
-export default NewsList;
+export default NewList;
