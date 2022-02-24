@@ -1,9 +1,7 @@
 import Banner from "../components/banner";
-import Banner2 from "../components/sub_banner";
 import Footer from "../components/footer";
 import Header from "../components/header";
-import ProductList from "../components/productList";
-import NewsList from "../components/newsList";
+import ProductList from "../components/contact";
 
 const HomePage = {
     async render() {
@@ -15,14 +13,8 @@ const HomePage = {
                 <div class="banner">
                    ${Banner.render()}
                 </div>
-                <div class="product">
+                <div class="contact">
                     ${await ProductList.render()}
-                </div>
-                <div class="banner">
-                    ${Banner2.render()}
-                </div>
-                <div class="news">
-                    ${await NewsList.render()}
                 </div>
                 ${Footer.render()}
             

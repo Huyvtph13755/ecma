@@ -1,163 +1,58 @@
-// class Animal {
-//     constructor(color, type) {
-//         this.color = color;
-//         this.type = type;
-//     }
-
-//     showInfo() {
-//         console.log(`
-//             Màu sắc: ${this.color}
-//             Loại: ${this.type}
-//         `);
-//     }
-// }
-// const cat = new Animal("Màu vàng", "Mèo mun");
-// const cat2 = new Animal("Màu xanh", "Mèo");
-// cat.showInfo();
-// cat2.showInfo();
-
 import Navigo from "navigo";
-import HomePage from "./Pages/home";
-import AboutPage from "./Pages/about";
-import ProductPage from "./Pages/site/product";
-import NewsPage from "./Pages/site/news";
-import Signin from "./Pages/site/signin";
-import Signup from "./Pages/site/signup";
-import DetailNewsPage from "./Pages/detailNews";
-import DashBoardPage from "./Pages/admin/dashboard";
-import AddNewsPage from "./Pages/admin/news/add";
-import AdminNewsPage from "./Pages/admin/news";
-import EditNews from "./Pages/admin/news/edit";
+import HomePage from "./pages/home";
+import AboutPage from "./pages/about";
+import ProductPage from "./pages/products";
+import AdminPosts from "./pages/posts";
+import AdminAddPosts from "./pages/posts/add";
+import AdminAddProducts from "./pages/ql_product/add";
+import InCate from "./pages/products/inCate";
+import AdminEditposts from "./pages/posts/edit";
+import AdminEditproduct from "./pages/ql_product/edit";
+import AdminEditcategory from "./pages/ql_cate/edit";
+import Signup from "./pages/signup";
+import Signin from "./pages/signin";
+import ProductDetailPage from "./pages/products/detail";
+import CartPage from "./pages/cart";
+import AdminProducts from "./pages/ql_product";
+import AdminCategories from "./pages/ql_cate";
+import AdminAddCategories from "./pages/ql_cate/add";
 
-const router = new Navigo("/", {
-    linksSelector: "a"
-});
+const router = new Navigo("/", { linksSelector: "a", hash: true });
 
-const print = (content) => {
-    document.getElementById("app").innerHTML = content;
+const print = async (content, id) => {
+    document.getElementById("app").innerHTML = await content.render(id);
+    if(content.afterRender) await content.afterRender(id);
 };
-
-
+router.on("/admin/*", () => {}, {
+    before: (done) =>{ 
+        if(localStorage.getItem('user')){
+            console.log('ahihi');
+            const userId = JSON.parse(localStorage.getItem('user')).id;
+            if(userId === 1){
+                done();
+            } else {
+                document.location.href="/"
+            }
+        }
+    }
+})
 router.on({
-    "/": () => {
-        print(HomePage.render());
-    },
-    "/about": () => {
-        print(AboutPage.render());
-    },
-    "/product": () => {
-        print(ProductPage.render());
-    },
-    "/news": () => {
-        print(NewsPage.render());
-    },
-    "/signin": () => {
-        print(Signin.render());
-    },
-    "/signup": () => {
-        print(Signup.render());
-    },
-    "/news/:id": ({
-        data
-    }) => {
-        const {
-            id
-        } = data;
-        print(DetailNewsPage.render(id));
-    },
-    "/news/edit/:id": ({
-        data
-    }) => {
-        const {
-            id
-        } = data;
-        print(EditNews.render(id));
-    },
-    "/admin/dashboard": () => {
-        print(DashBoardPage.render());
-    },
-    "/admin/news": () => {
-        print(AdminNewsPage.render());
-    },
-    "/admin/news/add": () => {
-        console.log("12");
-        print(AddNewsPage.render());
-    },
+    "/": () => print(HomePage),
+    "/about": () => print(AboutPage),
+    "/products": () => print(ProductPage),
+    "/products/:id": ({data}) => print(ProductDetailPage, data.id),
+    "/category/:id": ({data}) => print(InCate, data.id),
+    "/admin/posts": () =>print(AdminPosts),
+    "/admin/posts/add": () =>print(AdminAddPosts),
+    "/admin/products/add": () =>print(AdminAddProducts),
+    "/admin/categories/add": () =>print(AdminAddCategories),
+    "/admin/posts/:id/edit": ({data}) =>print(AdminEditposts, data.id),
+    "/admin/products/:id/edit": ({data}) =>print(AdminEditproduct, data.id),
+    "/admin/categories/:id/edit": ({data}) =>print(AdminEditcategory, data.id),
+    "/signup": () => print(Signup),
+    "/signin": () => print(Signin),
+    "/admin/products": () =>print(AdminProducts),
+    "/admin/categories": () =>print(AdminCategories),
+    "/cart": () => print(CartPage)
 });
 router.resolve();
-
-// const a = 10;
-// const b = 20;
-
-// function display(result){
-//     document.getElementById('app').innerHTML = result;
-// }
-// function sum(a, b, callback){
-//     const c = a + b;
-//     callback(c);
-// }
-// sum(a, b, function(result){
-//     console.log(result);
-//     document.getElementById('app').innerHTML = result;
-// })
-
-
-// function loadScript(src, callback){
-//     const script = document.createElement('script');
-//     script.src = src;
-//     script.onload = () => {
-//         callback(null, script);
-//     }
-//     script.onerror = () => {
-//         callback(new Error("Couldn't load"));
-//     }
-//     document.head.append(script);
-// }
-// loadScript('https://classroom.google.com/u/1/c/NDUxNDg3NDYyMDE4/m/NDQ4NDEyNzEzMDc2/details', function(error,script){
-//     console.log(`${script.src} is loaded`);
-//     if(error){
-//         console.log(error);
-//     }else{
-//         console.log(error)
-//     }
-// })
-
-
-// const toTinh = new Promise(function (resolve, reject) {
-//     const status = true;
-//     setTimeout(() => {
-//         if (status) {
-//             resolve("gật")
-//         } else {
-//             reject("Lắc")
-//         }
-//     }, 3000)
-// })
-
-// toTinh.then(function (result) {
-//         console.log(result)
-//     })
-//     .then(() => {
-//         setTimeout(() => {
-//             console.log("Hinh nhu co gi khong dung")
-//         }, 3000)
-//     })
-//     .catch(errr)
-
-
-// function loadScript(src){
-//     return new Promise((resolve, reject) => {
-//         const script = document.createElement("script");
-//         script.src = src;
-//         script.onload = () => {
-//             resolve(script);
-//         }
-//         script.onerror = () => {
-//             reject(new Error("Lỗi kết nối"));
-//         }
-//         document.head.append(script);
-//     })
-// }
-// loadScript ('https://classroom.google.com/u/1/c/NDUxNDg3NDYyMDE4/m/NDQ4NDEyNzEzMDc2/details')
-// .then(script => console.log(script))
-// .catch(error => console.log(error))

@@ -1,6 +1,9 @@
-const About = {
-    render(){
-        return `<h1>About</h1>`
+const AboutPage = {
+    render() {
+        return /* html */`
+        <div class="max-w-5xl mx-auto">
+            <h1>About Page</h1>
+        </div>`;
     },
 };
-export default About;
+export default AboutPage;
